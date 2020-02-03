@@ -1,6 +1,5 @@
 # CSE276A
 Solutions for the homework of acse276A
-There are total five different solutions for each homework.
 
 ****
 	
@@ -17,19 +16,25 @@ There are total five different solutions for each homework.
 * [hw5](#hw5)
 
 ### hw1
-A pdf solution
+* A pdf solution
+* A Python file
+* A matlab file
 
 ### hw2
-A pdf solution
+* A pdf solution
+* A Python file
 
 ### hw3
-A pdf solution
+* A pdf solution
+* A Python file
+* Four results stored in .txt
 
 ### hw4
-A pdf solution
+* A pdf solution
+* Several matlab files
 
 ### hw5
-A pdf solution
-
+* A pdf solution
+* Several matlab files
 
 
