@@ -1,0 +1,155 @@
+%%This function is for the homework1 of CSE276A. 
+clc
+clear
+close all
+waypoint1=[0,0];waypoint2=[-1,0];waypoint3=[-1,1];waypoint4=[-2,1];
+waypoint5=[-2,2];waypoint6=[-1,1];waypoint7=[0,0];
+waypoint=[waypoint2,waypoint3,waypoint4,waypoint5,waypoint6,waypoint7];
+waypoint_for_draw=[waypoint1',waypoint2',waypoint3',waypoint4',waypoint5',waypoint6',waypoint7'];
+angle=[0,0,pi/2,0,pi/2,2/pi,pi];   
+kp=0.08;
+ka=0.09;
+kb=-0.11;
+count=1;
+for i=1:6
+    waypoint_end=[waypoint(1,2*(i-1)+1),waypoint(1,2*(i-1)+2)]
+    if i==1
+        waypoint_start=waypoint1;
+    else
+        waypoint_start=[waypoint(1,2*(i-2)+1),waypoint(1,2*(i-2)+2)];
+    end
+    angle_now=angle(1,i);
+    angle_end=angle(1,i+1)
+    error_distance=100;
+    error_angle=100;
+    omega=0;
+    velosity=0;
+    while(error_distance>=0.1)
+        if(velosity~=0)
+            gama=atan(omega*0.2/velosity);
+            angle_now=angle_now+gama;
+            if angle_now>=2*pi
+                angle_now=angle_now-2*pi;
+            end
+            if(angle_now<0)
+                angle_now=angle_now+2*pi;
+            end
+        end
+        angle_now
+        p=sqrt((waypoint_end(1,1)-waypoint_start(1,1))^2+(waypoint_end(1,2)-waypoint_start(1,2))^2);
+        if(waypoint_end(1,1)-waypoint_start(1,1)==0)
+            if(waypoint_end(1,2)>waypoint_start(1,2))
+                alpha=pi/2-angle_now;
+            else
+                alpha=pi/2+angle_now;
+            end
+        else
+            if(waypoint_end(1,2)>waypoint_start(1,2)&&waypoint_end(1,1)>waypoint_start(1,1))
+                31
+                angle_2to_left=atan((waypoint_end(1,2)-waypoint_start(1,2))/(waypoint_end(1,1)-waypoint_start(1,1)));
+                angle_2to_right=angle_2to_left+pi;
+                if(angle_now>=angle_2to_left&&angle_now<=angle_2to_right)
+                    alpha=-(angle_now-angle_2to_left);
+                    belta=-(angle_now-abs(alpha))+angle_end;
+                else
+                    if(angle_now>=0&&angle_now<angle_2to_left)
+                        alpha=angle_2to_left-angle_now;
+                        belta=-angle_now-alpha+angle_end;
+                    else
+                        alpha=pi-(angle_now-angle_2to_right);
+                        belta=2*pi-angle_now-alpha+angle_end;
+                    end
+                end
+            else if(waypoint_end(1,2)>waypoint_start(1,2)&&waypoint_end(1,1)<waypoint_start(1,1))
+                32
+                angle_2to_left=atan((waypoint_end(1,2)-waypoint_start(1,2))/(waypoint_end(1,1)-waypoint_start(1,1)));
+                angle_2to_left=angle_2to_left+pi;
+                angle_2to_right=angle_2to_left+pi; 
+                if(angle_now>=angle_2to_left&&angle_now<=angle_2to_right)
+                    alpha=-(angle_now-angle_2to_left);
+                    belta=-(angle_now-abs(alpha))+angle_end;
+                else
+                    if(angle_now>=0&&angle_now<angle_2to_left)
+                        alpha=angle_2to_left-angle_now;
+                        belta=-(alpha+angle_now)+angle_end;
+                    else
+                        alpha=pi-(angle_now-angle_2to_right);
+                        belta=2*pi-angle_now-alpha+angle_end;
+                    end
+                end
+                else if(waypoint_end(1,2)<waypoint_start(1,2)&&waypoint_end(1,1)<waypoint_start(1,1))
+                    33
+                    angle_2to_left=atan((waypoint_end(1,2)-waypoint_start(1,2))/(waypoint_end(1,1)-waypoint_start(1,1)));     
+                    angle_2to_right=angle_2to_left+pi;
+                    if(angle_now>=angle_2to_left&&angle_now<=angle_2to_right)
+                        alpha=angle_2to_right-angle_now;
+                        belta=-(alpha+angle_now-pi)+angle_end;
+                    else
+                        if(angle_now>=0&&angle_now<angle_2to_left)
+                            alpha=-(pi-(angle_2to_left-angle_now));
+                            belta=-(pi-(abs(alpha)-angle_now))+angle_end;
+                        else
+                            alpha=-(angle_now-angle_2to_right);
+                            belta=pi-angle_now+abs(alpha)+angle_end;
+                        end
+                    end
+                    else if(waypoint_end(1,2)<waypoint_start(1,2)&&waypoint_end(1,1)>waypoint_start(1,1))
+                        34
+                        angle_2to_left=atan((waypoint_end(1,2)-waypoint_start(1,2))/(waypoint_end(1,1)-waypoint_start(1,1))); 
+                        angle_2to_left=angle_2to_left+pi;
+                        angle_2to_right=angle_2to_left+pi;
+                        if(angle_now>=angle_2to_left&&angle_now<=angle_2to_right)
+                            alpha=angle_2to_right-angle_now;
+                            belta=pi-alpha-angle_now+angle_end;
+                        else
+                            if(angle_now>=0&&angle_now<angle_2to_left)
+                                alpha=-(pi-(angle_2to_left-angle_now));
+                                belta=-pi+abs(alpha)+angle_now+angle_end;
+                            else
+                                alpha=-(angle_now-angle_2to_right);
+                                belta=pi-angle_now+abs(alpha)+angle_end;
+                            end
+                        end
+                    end
+                end
+              end
+           end
+        end
+        if(waypoint_end(1,2)==waypoint_start(1,1))
+            alpha=0;
+            belta=-angle_now-alpha+angle_end;
+        end
+        velosity=kp*p;
+        if(i==1)
+            velosity=-velosity;
+        end
+        omega=ka*alpha+kb*belta;
+        waypoint_start(1,1)=waypoint_start(1,1)+velosity*cos(angle_now);
+        waypoint_start(1,2)=waypoint_start(1,2)+velosity*sin(angle_now);
+        error_distance=sqrt((waypoint_end(1,1)-waypoint_start(1,1))^2+(waypoint_end(1,2)-waypoint_start(1,2))^2);
+        error_angle=abs(angle_end-angle_now);
+        orientation=zeros(2,5);
+        robot=zeros(2,7);
+        for j =1:5
+            orientation(:,j)=[(waypoint_start(1,1)+cos(angle_now)*0.02*j);(waypoint_start(1,2)+sin(angle_now)*0.02*j)];
+        end
+        for jj=-3:3
+            if(angle_now<=pi/2)
+                robot(:,jj+4)=[(waypoint_start(1,1)+sin(angle_now)*0.02*jj);(waypoint_start(1,2)-cos(angle_now)*0.02*jj)];
+                else if(angle_now<=pi)
+                    robot(:,jj+4)=[(waypoint_start(1,1)+sin(angle_now)*0.02*jj);(waypoint_start(1,2)-cos(angle_now)*0.02*jj)];
+                    else if(angle_now<=1.5*pi)
+                            robot(:,jj+4)=[(waypoint_start(1,1)-sin(angle_now)*0.02*jj);(waypoint_start(1,2)+cos(angle_now)*0.02*jj)];
+                        else
+                            robot(:,jj+4)=[(waypoint_start(1,1)-sin(angle_now)*0.02*jj);(waypoint_start(1,2)+cos(angle_now)*0.02*jj)];
+                        end
+                    end
+            end           
+        end
+        plot([robot(1,:),orientation(1,:),waypoint_start(1,1),waypoint_for_draw(1,:)],[robot(2,:),orientation(2,:),waypoint_start(1,2),waypoint_for_draw(2,:)],'*','Markersize',10);
+        M(count)=getframe;
+        count=count+1;
+        pause(0.05)
+    end
+end
+movie(M)

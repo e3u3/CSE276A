@@ -1,0 +1,4 @@
+
+voronoi based graph:https://youtu.be/hI3LD50ZMbs
+
+visibility graph:https://youtu.be/LnBwElM2ulc
