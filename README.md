@@ -16,4 +16,20 @@ There are total five different solutions for each homework.
 * [hw4](#hw4)
 * [hw5](#hw5)
 
+### hw1
+A pdf solution
+
+### hw2
+A pdf solution
+
+### hw3
+A pdf solution
+
+### hw4
+A pdf solution
+
+### hw5
+A pdf solution
+
+
 
